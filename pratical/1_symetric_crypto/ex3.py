@@ -9,15 +9,14 @@ from cryptography.hazmat.backends import default_backend
 from utils import open_bin_file, save_bin_file, read_bin_file_in_chunks
 
 
-SALT = b'\x00'
-KEY_SIZE = 16
+PADDING_SIZE = algorithms.AES.block_size//8
 
 
 def main(key_file: str, input_file: str, output_file: str):
    key = open_bin_file(key_file)
 
    # setup cipher: AES in CBC mode, w/ a random IV and PKCS #7 padding (similar to PKCS #5)
-   iv = os.urandom(algorithms.AES.block_size//8)
+   iv = os.urandom(PADDING_SIZE)
    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), default_backend())
    encryptor = cipher.encryptor()
    padder = padding.PKCS7(algorithms.AES.block_size).padder()
@@ -25,11 +24,9 @@ def main(key_file: str, input_file: str, output_file: str):
    output_content = iv
 
    # TODO -> analisar como poderá ser melhorada a performance para qualquer tipo de ficheiro de entrada
-   for chunk in read_bin_file_in_chunks(input_file, algorithms.AES.block_size*100):
-      if not len(chunk)%algorithms.AES.block_size:
-         output_content += encryptor.update(padder.update(chunk))
-      else:
-         output_content += encryptor.update(padder.finalize())
+   for chunk in read_bin_file_in_chunks(input_file, 2048):
+      output_content += encryptor.update(padder.update(chunk))
+   output_content += encryptor.update(padder.finalize())
 
    save_bin_file(output_file, output_content)
 
