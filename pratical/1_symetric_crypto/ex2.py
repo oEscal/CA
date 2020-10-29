@@ -20,10 +20,10 @@ def main(pwd: str, output_file: str):
 
 
 if __name__ == '__main__':
-   parser = argparse.ArgumentParser(description='Creation of a symmetric key from a password.')
-   parser.add_argument('--password', '-p', type=str, required=True, help='Password to create the symmetric key.')
-   parser.add_argument('--output_file', '-o', type=str, default="key.bin", help='File where to store the generated key.')
+   parser = argparse.ArgumentParser(description="Creation of a symmetric key from a password.")
+   parser.add_argument('--password', '-p', type=str, required=True, help="Password to create the symmetric key.")
+   parser.add_argument('--output', '-o', type=str, default="key.bin", help="File name where to store the generated key.")
 
    args = parser.parse_args()
 
-   main(args.password, args.output_file)
+   main(args.password, args.output)
