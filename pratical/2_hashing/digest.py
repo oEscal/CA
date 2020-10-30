@@ -8,7 +8,7 @@ ARRAY_SIZE = 32
 NUMBER_TRIALS = 10000
 
 
-def digest(string: bin) -> bin:
+def digest(string: bytes) -> bytes:
    digest = Hash(SHA256())
    digest.update(string)
 
