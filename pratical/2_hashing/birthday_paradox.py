@@ -1,16 +1,16 @@
 import random
 import os
 
-from cryptography.hazmat.primitives.hashes import Hash, SHA256
+from cryptography.hazmat.primitives.hashes import Hash, SHA256, MD5
 
 
 ARRAY_SIZE = 32
-NUMBER_BYTES_COMPARE = 2         # for SHA256 THERE ARE 32 BYTES FOR EXAMPLE, UNFEASIBLE
+NUMBER_BYTES_COMPARE = 1         # for SHA256 THERE ARE 32 BYTES FOR EXAMPLE, UNFEASIBLE
 NUMBER_TRIALS = 1000
 
 
 def digest(string: bytes) -> bytes:
-   digest = Hash(SHA256())
+   digest = Hash(MD5())
    digest.update(string)
 
    return digest.finalize()
@@ -38,7 +38,7 @@ def main():
             break
 
    print("\n\n\n\n\n")
-   print(f"Average number of collisions for {NUMBER_BYTES_COMPARE*8} bits of digest: {total_number_iterations/NUMBER_TRIALS}")
+   print(f"Average number of iterations necessary for collision for {NUMBER_BYTES_COMPARE*8} bits of digest: {total_number_iterations/NUMBER_TRIALS}")
 
 
 if __name__ == '__main__':
