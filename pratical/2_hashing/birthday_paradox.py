@@ -5,12 +5,12 @@ from cryptography.hazmat.primitives.hashes import Hash, SHA256, MD5
 
 
 ARRAY_SIZE = 32
-NUMBER_BYTES_COMPARE = 1         # for SHA256 THERE ARE 32 BYTES FOR EXAMPLE, UNFEASIBLE
+NUMBER_BYTES_COMPARE = 2         # for SHA256 THERE ARE 32 BYTES FOR EXAMPLE, UNFEASIBLE
 NUMBER_TRIALS = 1000
 
 
 def digest(string: bytes) -> bytes:
-   digest = Hash(MD5())
+   digest = Hash(SHA256())
    digest.update(string)
 
    return digest.finalize()
